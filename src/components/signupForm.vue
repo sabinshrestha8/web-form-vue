@@ -12,11 +12,38 @@
             <option value="developer">Web Developer</option>
             <option value="designer">Web Designer</option>
         </select>
+
+        <!-- First way to work with checkboxes, by using single 
+        checkbox with v-model that would be either true or 
+        false dependent on whether it's checked or not -->
+        <div class="terms">
+            <input type="checkbox" v-model="terms" required>
+            <label>Accept terms and conditions</label>
+        </div>
+
+        <!-- Second way to work with checkboxes, by using an array of 
+        values & multiple different checkboxes that belong together -->
+        <div>
+            <!-- value is assigned so that its value 
+            ends up in array not boolean values -->
+            <input type="checkbox" value="shaun" v-model="names">
+            <label>Shaun</label>
+        </div>
+        <div>
+            <input type="checkbox" value="yoshi" v-model="names">
+            <label>Yoshi</label>
+        </div>
+        <div>
+            <input type="checkbox" value="mario" v-model="names">
+            <label>Mario</label>
+        </div>
     </form>
 
     <p>Email: {{ email }}</p>
     <p>Password: {{ password }}</p>
     <p>Role: {{ role }}</p>
+    <p>Terms accepted: {{ terms }}</p>
+    <p>Names: {{ names }}</p>
 </template>
 
 <script>
@@ -27,7 +54,9 @@ export default {
             gets updated with value that they type in */
             email: 'mario',
             password: '',
-            role: ''
+            role: '',
+            terms: false,
+            names: []
         }
     }
 };
@@ -61,5 +90,13 @@ input, select {
     border: none;
     border-bottom: 1px solid #ddd;
     color: #555;
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    width: 16px;
+    margin: 0 10px 0 0;
+    position: relative;
+    top: 2px;
 }
 </style>
