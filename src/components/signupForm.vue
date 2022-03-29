@@ -14,7 +14,7 @@
         </select>
 
         <label>Skills:</label>
-        <input type="text" v-model="tempSkill" @keyup="addSkill">
+        <input type="text" v-model="tempSkill" @keyup.alt="addSkill">
         <!-- key should be unique for each skill -->
         <div v-for="skill in skills" :key="skill" class="pill">
             {{ skill }}
@@ -53,7 +53,12 @@ export default {
         addSkill(e) {
             // only gonna fire if tempskill has a value & we press comma
             if (e.key === "," && this.tempSkill) {
-                this.skills.push(this.tempSkill);
+                /* check if the skills array alreay includes 
+                tempSkill which we're trying to add to it 
+                */
+                if (!this.skills.includes(this.tempSkill)) {
+                    this.skills.push(this.tempSkill);
+                }
                 // clear the input field
                 this.tempSkill = "";
             }
