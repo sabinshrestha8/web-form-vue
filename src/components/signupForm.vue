@@ -17,7 +17,9 @@
         <input type="text" v-model="tempSkill" @keyup.alt="addSkill">
         <!-- key should be unique for each skill -->
         <div v-for="skill in skills" :key="skill" class="pill">
-            {{ skill }}
+            <!-- we have access to each skill bcuz we are in 
+            v-for loop & we can pass the skill as an args -->
+            <span @click="deleteSkill(skill)">{{ skill }}</span>
         </div>
 
         <!-- First way to work with checkboxes, by using single 
@@ -36,6 +38,9 @@
 </template>
 
 <script>
+// challenge
+//   - when a user click on a skill, delete that skill
+
 export default {
     data() {
         return {
@@ -63,6 +68,16 @@ export default {
                 this.tempSkill = "";
             }
         },
+        // deletes the specific skill from the skill array but we need to know what skill to delete
+        // takes in the skill as an args passed from the click event
+        deleteSkill(skill) {
+            // using filter method on the array to filter out selected skill
+            this.skills = this.skills.filter((item) => {
+                /* check does the skill we take in as parameter equals to item, 
+                if it does then return false & remove that skill from the array */
+                return skill != item
+            })
+        }
     },
 };
 </script>
@@ -104,5 +119,18 @@ input[type="checkbox"] {
     margin: 0 10px 0 0;
     position: relative;
     top: 2px;
+}
+
+.pill {
+    display: inline-block;
+    margin: 20px 10px 0 0;
+    padding: 6px 12px;
+    background: #eee;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #777;
+    cursor: pointer;
 }
 </style>
