@@ -1,11 +1,17 @@
 <template>
-    <form>
+    <!-- Attaching event modifier to submit event that prevents the
+    default action of form being submitted i.e reload the page -->
+    <form @submit.prevent="handleSubmit">
         <label>Email:</label>
         <!-- using directive v-model to sync form field and data property i.e. email together -->
         <input type="email" required v-model="email" />
 
         <label>Password:</label>
         <input type="password" required v-model="password" />
+        <!-- output error if only passwordError has value and not '' -->
+        <div v-if="passwordError" class="error">
+            {{ passwordError }}
+        </div>
 
         <label>Role:</label>
         <select v-model="role">
@@ -29,6 +35,10 @@
             <input type="checkbox" v-model="terms" required />
             <label>Accept terms and conditions</label>
         </div>
+
+        <div class="submit">
+            <button>Create an account</button>
+        </div>
     </form>
 
     <p>Email: {{ email }}</p>
@@ -38,9 +48,6 @@
 </template>
 
 <script>
-// challenge
-//   - when a user click on a skill, delete that skill
-
 export default {
     data() {
         return {
@@ -51,7 +58,8 @@ export default {
             role: "",
             terms: false,
             tempSkill: "",
-            skills: []
+            skills: [],
+            passwordError: ""
         }
     },
     methods: {
@@ -77,6 +85,21 @@ export default {
                 if it does then return false & remove that skill from the array */
                 return skill != item
             })
+        },
+        handleSubmit() {
+            // validate password
+            this.passwordError = this.password.length > 5 ? 
+                '' : 'password must be atleast 6 chars long'
+    
+            console.log('form submitted');
+
+            if(!this.passwordError) {
+                console.log('email:', this.email);
+                console.log('password:', this.password);
+                console.log('role:', this.role);
+                console.log('skills:', this.skills);
+                console.log('terms accepted:', this.terms);
+            }
         }
     },
 };
@@ -132,5 +155,26 @@ input[type="checkbox"] {
     font-weight: bold;
     color: #777;
     cursor: pointer;
+}
+
+button {
+    background: #0b6dff;
+    border: 0;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.submit {
+    text-align: center;
+}
+
+.error {
+    color: #ff0062;
+    margin-top: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
 }
 </style>
